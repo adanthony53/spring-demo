@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Posting Questions: Community Example</title>
+    <title>Posting Questions!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/css/community.min.css">
+    <link rel="stylesheet" href="/css/community.css">
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -71,23 +71,37 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Post your question!</h2>
+            <h2>Post your question!</h2>
             <hr>
-            <form action="">
+            <form action="publish" method="post">
                 <div class="form-group">
                     <label for="title">Question Title:</label>
-                    <input type="text" class="form-control" id="questiontitle" name="title"
-                           placeholder="Question Title">
+                    <input type="text" class="form-control" th:value="${title}" id="title" name="title"
+                           placeholder="Question Title...">
                 </div>
                 <div class="form-group">
-                    <label for="title">Question Description:</label>
-                    <textarea name="description" id="description" class="form-control" cols="30" rows="10"></textarea>
+                    <label for="description">Question Description:</label>
+                    <textarea name="description" id="description" th:text="${description}" class="form-control" cols="30" rows="10"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="title">Add Label(s):</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="Enter label(s)">
+                    <label for="tag">Add Label(s):</label>
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="Enter label(s)">
                 </div>
-                <button type="button" class="btn btn-success">Submit</button>
+                <div class="container-fluid main ">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                            <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 th:text="${error}"
+                                 th:if="${error != null}">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-success btn-publish ">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">

@@ -46,7 +46,7 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         //System.out.println(user.getName());
 
-        if (githubUser != null) {
+        if (githubUser != null && githubUser.getId() != null) {
             // write new user into database
             // keep the user logged in
             User user = new User();
