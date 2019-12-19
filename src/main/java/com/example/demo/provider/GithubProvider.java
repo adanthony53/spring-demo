@@ -23,7 +23,7 @@ public class GithubProvider {
         try (Response response = client.newCall(request).execute()) {
             String s = response.body().string();
             String token = s.split("&")[0].split("=")[1];
-            System.out.println(token);
+            //System.out.println(token);
             return token;
         } catch (Exception e) {
             e.printStackTrace();
