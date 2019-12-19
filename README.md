@@ -13,3 +13,4 @@ session - bank account
 cookies - card
 
 Use database to keep user logged in even after refresh the server
+In this project, use H2 database.
