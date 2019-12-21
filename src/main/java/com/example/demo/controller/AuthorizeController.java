@@ -56,6 +56,8 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            //System.out.println("github capture avatar url" + githubUser.getAvatarUrl());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             userMapper.insert(user);
             response.addCookie(new Cookie("token", token));
 
@@ -64,6 +66,7 @@ public class AuthorizeController {
             return "redirect:/";
         } else {
             // log in failed
+            System.out.println("log in failed or didnt need to login");
             return "redirect:/";
         }
     }

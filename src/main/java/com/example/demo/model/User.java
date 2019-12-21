@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import lombok.Data;
+
+@Data
 public class User {
     private Integer id;
     private String name;
@@ -7,7 +10,9 @@ public class User {
     private String token;
     private Long gmtCreate;
     private Long gmtModified;
+    private String avatarUrl;
 
+    /*
     public Integer getId() {
         return id;
     }
@@ -55,4 +60,6 @@ public class User {
     public void setGmtModified(Long gmtModified) {
         this.gmtModified = gmtModified;
     }
+
+     */
 }
