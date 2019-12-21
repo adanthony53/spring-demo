@@ -23,7 +23,7 @@ public class PaginationDTO {
         page = Math.min(page, totalPage);
         this.page = page;
 
-        Integer len = 3;
+        Integer len = 3; // prev 3 and next 3 if not out of bound
         pages.add(page);
         for (int i = 1; i <= len; i++) {
             if (page - i > 0) pages.add(0,page - i);
