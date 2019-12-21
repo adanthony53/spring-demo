@@ -55,19 +55,16 @@ public class PublishController {
 
         User user = null;
         Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length == 0) {
-            for (Cookie cookie : cookies) {
-                if (cookie != null && cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
+        for (Cookie cookie : cookies) {
+            if (cookie != null && cookie.getName().equals("token")) {
+                String token = cookie.getValue();
+                user = userMapper.findByToken(token);
+                if (user != null) {
+                    request.getSession().setAttribute("user", user);
                 }
+                break;
             }
         }
-
         if (user == null) {
             model.addAttribute("error", "unlogged in user for question");
             return "publish";
