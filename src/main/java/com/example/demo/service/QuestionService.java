@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.PaginationDTO;
 import com.example.demo.dto.QuestionDTO;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
@@ -21,21 +22,30 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<QuestionDTO> list() {
-        List<Question> questionList = questionMapper.list();
-        List<QuestionDTO> res = new ArrayList<>();
+    public PaginationDTO list(Integer page, Integer size) {
+        //size*(page-1)
+        //get total questions count
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCnt = questionMapper.count();
+        paginationDTO.setPagination(totalCnt, page, size);
+
+        page = Math.max(page, 1);
+        page = Math.min(page, paginationDTO.getTotalPage());
+
+        Integer offset = size * (page-1);
+        List<Question> questionList = questionMapper.list(offset, size);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
         for (Question question : questionList) {
-            //System.out.println(question.getCreator());
             User user = userMapper.findById(question.getCreator());
-            //System.out.println(user.getId());
-            //System.out.println(user.getName());
-            //System.out.println(user.getAvatarUrl());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO); //set all the properties of Question to QuestionDTO
             questionDTO.setUser(user);
-            res.add(questionDTO);
+            questionDTOList.add(questionDTO);
         }
-        return res;
+
+        paginationDTO.setQuestions(questionDTOList);
+        return paginationDTO;
     }
 }
 
