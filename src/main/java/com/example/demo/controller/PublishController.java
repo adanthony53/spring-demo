@@ -53,7 +53,8 @@ public class PublishController {
             return "publish";
         }
 
-        User user = null;
+        User user = (User) request.getSession().getAttribute("user");
+        /*
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie != null && cookie.getName().equals("token")) {
@@ -65,6 +66,8 @@ public class PublishController {
                 break;
             }
         }
+
+         */
         if (user == null) {
             model.addAttribute("error", "unlogged in user for question");
             return "publish";
