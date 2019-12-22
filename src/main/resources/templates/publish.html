@@ -17,7 +17,8 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2>Post your question!</h2>
             <hr>
-            <form action="publish" method="post">
+            <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">Question Title:</label>
                     <input type="text" class="form-control" th:value="${title}" id="title" name="title"
@@ -31,7 +32,7 @@
                     <label for="tag">Add Label(s):</label>
                     <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="Enter label(s)">
                 </div>
-                <div class="container-fluid main ">
+                <div class="container-fluid main">
                     <div class="row">
                         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                             <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"

@@ -5,6 +5,7 @@ import com.example.demo.dto.GithubUser;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.provider.GithubProvider;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -47,27 +48,34 @@ public class AuthorizeController {
         //System.out.println(user.getName());
 
         if (githubUser != null && githubUser.getId() != null) {
-            // write new user into database
-            // keep the user logged in
+            // should check if the database has the user
+            // if not, create a new user
+
             User user = new User();
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            //System.out.println("github capture avatar url" + githubUser.getAvatarUrl());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
-            response.addCookie(new Cookie("token", token));
 
-            // log in success, write cookie and session
-            // request.getSession().setAttribute("user", githubUser);
+            // store token for new user or update token for old user
+            userService.createOrUpdate(user);
+
+            response.addCookie(new Cookie("token", token));
             return "redirect:/";
         } else {
             // log in failed
             System.out.println("log in failed or didnt need to login");
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }
